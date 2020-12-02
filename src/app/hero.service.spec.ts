@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HeroService } from "./hero.service";
 import { MessageService } from "./message.service";
 import { HttpClient } from "@angular/common/http";
+import { Hero } from "./hero";
 
 describe('hero.service', ()=> {
   let mockMessageService
@@ -33,7 +34,15 @@ describe('hero.service', ()=> {
       })
     )
 
-    it('should return superman when getHero(1)')
+    it('should return superman when getHero(1)',
+      inject([HeroService], (service: HeroService)=> {
+        let recivedHero;
+        service.getHero(1).subscribe(hero => recivedHero = hero)
 
+        const req = httpTestingController.expectOne('api/heroes/1')
+        req.flush({id: 1, name: 'superman'})
+        expect(recivedHero).toEqual({id: 1, name: 'superman'})
+      })
+    )
   })
 })
