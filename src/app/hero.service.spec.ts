@@ -32,5 +32,8 @@ describe('hero.service', ()=> {
         httpTestingController.verify()
       })
     )
+
+    it('should return superman when getHero(1)')
+
   })
 })
